@@ -1,0 +1,27 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="toolbar">
+    <button mat-icon-button routerLink="../">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>Users App</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card *ngIf="user$ | async as user; else spinner" >
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{user.first_name}} {{user.last_name}}</mat-card-title>
+  </mat-card-header>
+  <img [src]="user.avatar" class="img">
+  <mat-card-content>
+    <h3>
+      {{user.email}}
+    </h3>
+  </mat-card-content>
+</mat-card>
+<ng-template #spinner>
+  <div class="container">
+    <mat-spinner></mat-spinner>
+
+  </div>
+</ng-template>

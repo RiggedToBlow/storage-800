@@ -1,0 +1,72 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="toolbar">
+    <span>Users App</span>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+  <div class="form-container">
+    <mat-form-field class="example-form-field">
+      <mat-label>Enter User Id Here</mat-label>
+      <input matInput type="number" [formControl]="searchInput">
+    </mat-form-field>
+  </div>
+  <div *ngIf="userSearchedById$ | async as user" class="users-container">
+    <ng-container *ngIf="!user.error">
+      <h2>Search Result:</h2>
+      <mat-card routerLink="{{user.id}}">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{user.first_name}} {{user.last_name}}</mat-card-title>
+        </mat-card-header>
+        <img [src]="user.avatar" class="img">
+        <mat-card-content>
+          <h3>
+            {{user.email}}
+          </h3>
+        </mat-card-content>
+      </mat-card>
+
+    </ng-container>
+    <ng-container *ngIf="user.error">
+      <h2>
+        Error while searching for the user...
+      </h2>
+    </ng-container>
+    <ng-container *ngIf="user.error && user.status==404">
+      <h2>
+        USER NOT FOUND
+      </h2>
+    </ng-container>
+  </div>
+
+  <div *ngIf="users$ | async as users" class="users-container">
+    <mat-card *ngFor="let user of users" class="user-card" routerLink="{{user.id}}" >
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{user.first_name}} {{user.last_name}}</mat-card-title>
+      </mat-card-header>
+      <img [src]="user.avatar" class="img">
+      <mat-card-content>
+        <h3>
+          {{user.email}}
+        </h3>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <div *ngIf="userRequest$ | async as req" class="pagination-container">
+    <button (click)="moveToPreviousPage(req)" mat-mini-fab color="accent">
+      <mat-icon>chevron_left</mat-icon>
+
+    </button>
+    <button mat-mini-fab color="primary">
+      {{req.page}}
+    </button>
+    <button (click)="moveToNextPage(req)" mat-mini-fab color="accent">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>
